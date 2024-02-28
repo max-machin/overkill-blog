@@ -6,6 +6,7 @@ use App\Class\Controller;
 use App\Class\Crud;
 use App\Class\Post;
 use App\Classes\Post\PostInformations;
+use App\Proxy\Render\RenderProxy;
 use App\Manager\Post\PostManager;
 
 class PostController extends Controller 
@@ -22,10 +23,14 @@ class PostController extends Controller
 
         $posts = $postManager->getPaginatePosts($postInformations, $page);
         $pages = count($postsNumber) / 10;
-        $this->render('posts', ['posts' => $posts, 'pages' => $pages]);
+
+        $proxy = new RenderProxy( 'posts', ['posts' => $posts, 'pages' => $pages]);
+        $proxy->display();
+        // $renderProxy->display('posts', ['posts' => $posts, 'pages' => $pages]);
     }
 
-    public function viewPost($id, $error = null){
+    // exemple de façade ? 
+    public function viewPost(RenderProxy $renderProxy, $id, $error = null){
 
         if (is_numeric($id) === false) {
             throw new \Exception("L'identifiant du post n'est pas valide");
@@ -35,11 +40,12 @@ class PostController extends Controller
 
         $postInformations = new PostInformations();
 
+        // Exemple de proxy ? 
         $postManager = new PostManager();
 
         $post = $postManager->getPostInformations($postInformations, 'id', $id);
         
-        $this->render('post', ['post' => $post, 'error' => $error]);
+        $renderProxy->display('post', ['post' => $post, 'error' => $error]);
     }
 }
 
