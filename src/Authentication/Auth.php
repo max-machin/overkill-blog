@@ -5,6 +5,13 @@ namespace App\Authentication;
 use App\Class\Crud;
 use App\Interfaces\Authentication\AuthInterface;
 
+/**
+ * Class Auth : Responsable d'échanger avec la BDD pour la gestion d'authentification
+ * Exemple illustrant le design pattern : facade
+ * @attribut crud -> permet d'utiliser les fonctions génériques d'accès aux données
+ * @function login -> Connexion de l'utilisateur 
+ * @function register -> Inscription de l'utilisateur
+ */
 class Auth implements AuthInterface
 {
     private $crud;
@@ -14,7 +21,14 @@ class Auth implements AuthInterface
         $this->crud = new Crud('user');
     }
 
-    public function login($email, $password)
+    /**
+     * function Login : chargé de l'état de connexion de l'utilisateur, ce dernier est enregistré en session
+     *
+     * @param [string] $email
+     * @param [string] $password
+     * @return void
+     */
+    public function login(string $email, string $password)
     {
         $user = $this->crud->GetByAttributes(['email' => $email]);
 
@@ -29,7 +43,17 @@ class Auth implements AuthInterface
         }
     }
 
-    public function register($email, $password, $confirmPassword, $firstname, $lastname)
+    /**
+     * function Register : Charger d'inscrire l'utilisateur en base de données
+     *
+     * @param [string] $email
+     * @param [string] $password
+     * @param [string] $confirmPassword
+     * @param [string] $firstname
+     * @param [string] $lastname
+     * @return void
+     */
+    public function register(string $email, string $password, string $confirmPassword, string $firstname, string $lastname)
     {
         if ($this->crud->GetByAttributes(['email' => $email])) {
             throw new \Exception("L'email existe déjà");
@@ -41,7 +65,6 @@ class Auth implements AuthInterface
 
         $this->crud->Create(['email' => $email, 'password' => $hashedPassword, 'firstname' => $firstname, 'lastname' => $lastname, 'role' =>json_encode(["ROLE_USER"])]);
 
-        echo ('enregistrer en base de données');
         return true;
     }
 }

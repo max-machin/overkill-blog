@@ -2,12 +2,16 @@
 
 namespace App\Router\Routes;
 
-use App\Authentication\Auth;
 use App\Controller\Authentication\AuthenticationController;
 use App\Controller\Authentication\AuthenticationFacadeController;
 use App\Proxy\Render\RenderProxy;
 use App\Router\Router;
 
+/**
+ * Class AuthenticationRoutes
+ * Exemple illustrant le design pattern : facade
+ * Exemple illustrant le design pattern : proxy
+ */
 class AuthenticationRoutes
 {
     public function __construct(Router $router)
@@ -19,7 +23,6 @@ class AuthenticationRoutes
                 $proxy->display();
             } catch (\Exception $e) {
                 $proxy->display('register', ['error' => $e->getMessage()]);
-                // $controller->render('register', ['error' => $e->getMessage()]);
             }
         }, "register");
         

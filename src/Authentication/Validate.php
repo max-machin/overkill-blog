@@ -4,6 +4,10 @@ namespace App\Authentication;
 
 use App\Interfaces\Authentication\ValidateInterface;
 
+/**
+ * Class Validate : Responsable de la validation des données entrer en formulaire.
+ * Exemple illustrant le design pattern : facade
+ */
 class Validate implements ValidateInterface
 {
     public function isValid(array $data)

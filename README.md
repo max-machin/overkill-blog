@@ -19,9 +19,26 @@ PostController->getPaginatedPosts()
 ### 2. Façade 
 
 La **façade** va permettre de regrouper une logique multiple en un service faisant office de manager.
+L'exemple illustrant ce design pattern s'articule autour de l'authentication. La façade sera chargée de valider les entrées du formulaire, inscrire l'utilisateur, le connecter et lui faire savoir via un mail qu'il est inscrit.
 
-Classe exemple : App\Facade\AuthenticationFaçade
+Classe exemple : src/Facade/Authentication/AuthenticationFacade.php
+```
+AuthenticationFacadeController->signUpNewUser()
+{
+    // logic go here ....
+    $facade = new AuthenticationFacade($validate, $auth, $mail);
+    $rep = $facade->signUpUser($email, $password, $confirmPassword, $firstname, $lastname);
+} 
+```
+- Possible de retrouver les exemples en recherchant : 'facade'
 
+
+
+
+
+
+
+Finir commentaire proxy 
 
 Voir pour le decorator, composite, chaine de responsabilité, iterator ? 
 
