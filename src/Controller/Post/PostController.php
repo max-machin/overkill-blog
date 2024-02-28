@@ -45,7 +45,8 @@ class PostController extends Controller
 
         $post = $postManager->getPostInformations($postInformations, 'id', $id);
         
-        $renderProxy->display('post', ['post' => $post, 'error' => $error]);
+        $proxy = new RenderProxy('post', ['post' => $post, 'error' => $error]);
+        $renderProxy->display();
     }
 }
 
