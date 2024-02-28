@@ -3,6 +3,8 @@
 namespace App\Router\Routes;
 
 use App\Controller\Authentication\AuthenticationController;
+use App\Controller\Authentication\AuthenticationFacadeController;
+use App\Proxy\Render\RenderProxy;
 use App\Router\Router;
 
 class AuthenticationRoutes
@@ -12,17 +14,18 @@ class AuthenticationRoutes
         // Register 
         $router->get('/register', function () {
             try {
-                $controller = new AuthenticationController();
-                $controller->render('register');
+                $proxy = new RenderProxy('register');
+                $proxy->display();
             } catch (\Exception $e) {
-                $controller->render('register', ['error' => $e->getMessage()]);
+                $proxy->display('register', ['error' => $e->getMessage()]);
+                // $controller->render('register', ['error' => $e->getMessage()]);
             }
         }, "register");
         
         $router->post('/register', function () {
             try {
-                $controller = new AuthenticationController();
-                $controller->manageRegister($_POST['email'], $_POST['password'], $_POST['password_confirm'], $_POST['firstname'], $_POST['lastname']);
+                $controller = new AuthenticationFacadeController();
+                $controller->signUpNewUser($_POST['email'], $_POST['password'], $_POST['password_confirm'], $_POST['firstname'], $_POST['lastname']);
                 $controller->redirect('login');
             } catch (\Exception $e) {
                 $controller->render('register', ['error' => $e->getMessage()]);
