@@ -18,7 +18,34 @@ class AuthenticationFacadeController extends Controller
         $mail = new Mail();
 
         $facade = new AuthenticationFacade($validate, $auth, $mail);
-        $facade->signUpUser($email, $password, $confirmPassword, $firstname, $lastname);
+        $rep = $facade->signUpUser($email, $password, $confirmPassword, $firstname, $lastname);
+
+        if ($rep === true)
+        {
+            $this->redirect('home');
+        } else {
+            throw new \Exception("Une erreur est survenue durant le processus d'inscription.");
+        }
+    }
+
+    public function loginSelf($email, $password)
+    {
+
+        if (empty($email) || empty($password))
+        {
+            throw new \Exception("veuillez renseignez les champs requis.");
+        }
+
+        $auth = new Auth();
+        $rep = $auth->login($email, $password);
+
+        if ($rep == true)
+        {
+            $this->redirect('home');
+        } else {
+            throw new \Exception("Login ou mot de passe incorrect.");
+        }
+
     }
 }
 

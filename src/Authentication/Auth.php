@@ -16,7 +16,17 @@ class Auth implements AuthInterface
 
     public function login($email, $password)
     {
-        return true;
+        $user = $this->crud->GetByAttributes(['email' => $email]);
+
+        if (!empty($user) && password_verify($password, $user[0]['password'])) {
+
+            $_SESSION['user'] = $user[0];
+            
+            return true;
+        } else {
+           
+            return false;
+        }
     }
 
     public function register($email, $password, $confirmPassword, $firstname, $lastname)

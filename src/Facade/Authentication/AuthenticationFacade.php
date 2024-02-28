@@ -26,7 +26,11 @@ class AuthenticationFacade
             $this->auth->register($email, $password, $confirmPassword, $firstname, $lastname);
             $this->auth->login($email, $password);
             $this->mail->to($email)->subject('Welcome')->send();
+
+            return true;
         }
+
+        return false;
     }
 
 }

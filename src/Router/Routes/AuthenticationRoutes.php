@@ -2,6 +2,7 @@
 
 namespace App\Router\Routes;
 
+use App\Authentication\Auth;
 use App\Controller\Authentication\AuthenticationController;
 use App\Controller\Authentication\AuthenticationFacadeController;
 use App\Proxy\Render\RenderProxy;
@@ -26,7 +27,6 @@ class AuthenticationRoutes
             try {
                 $controller = new AuthenticationFacadeController();
                 $controller->signUpNewUser($_POST['email'], $_POST['password'], $_POST['password_confirm'], $_POST['firstname'], $_POST['lastname']);
-                $controller->redirect('login');
             } catch (\Exception $e) {
                 $controller->render('register', ['error' => $e->getMessage()]);
             }
@@ -40,10 +40,11 @@ class AuthenticationRoutes
         
         $router->post('/login', function () {
             try {
-                $controller = new AuthenticationController();
-                $controller->manageLogin($_POST['email'], $_POST['password']);
+                $controller = new AuthenticationFacadeController();
+                $controller->loginSelf($_POST['email'], $_POST['password']);
             } catch (\Exception $e) {
-                $controller->render('login', ['error' => $e->getMessage()]);
+                $proxy = new RenderProxy('login', ['error' => $e->getMessage()]);
+                $proxy->display();
             }
         }, "login");
 
