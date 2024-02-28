@@ -6,7 +6,7 @@
 
 Le design pattern **proxy** va permettre de mettre en place un système de mise en cache.
 
-Classe exemple : App\Classes\Render 
+Classe exemple : src/Controller/Post/PostController.php
 ```
 PostController->getPaginatedPosts()
 {
@@ -14,6 +14,13 @@ PostController->getPaginatedPosts()
     RenderProxy->display()
 } 
 ```
+- Possible de retrouver les exemples en recherchant : 'proxy'
+
+### 2. Façade 
+
+La **façade** va permettre de regrouper une logique multiple en un service faisant office de manager.
+
+Classe exemple : App\Facade\AuthenticationFaçade
 
 
 Voir pour le decorator, composite, chaine de responsabilité, iterator ? 

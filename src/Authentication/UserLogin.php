@@ -3,7 +3,6 @@
 namespace App\Authentication;
 
 use App\Class\Crud;
-use App\Class\User;
 use App\Interfaces\Authentication\LoginInterface;
 
 class UserLogin implements LoginInterface

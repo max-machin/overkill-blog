@@ -28,6 +28,7 @@ class PostController extends Controller
         $posts = $postManager->getPaginatePosts($postInformations, $page);
         $pages = count($postsNumber) / 10;
 
+        // Exemple de proxy
         $proxy = new RenderProxy( 'posts', ['posts' => $posts, 'pages' => $pages]);
         $proxy->display();
     }
