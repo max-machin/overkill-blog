@@ -10,12 +10,6 @@ use App\Facade\Authentication\AuthenticationFacade;
 
 class AuthenticationFacadeController extends Controller
 {
-    private $table = 'user';
-
-    public function __construct()
-    {
-        // $this->crud = new Crud($this->table);
-    }
 
     public function signUpNewUser($email, $password, $confirmPassword, $firstname, $lastname)
     {

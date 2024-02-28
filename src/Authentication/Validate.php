@@ -19,7 +19,11 @@ class Validate implements ValidateInterface
                 {
                     throw new \Exception("Veuillez insérer un format de mail valide."); 
                     return false;
-                } 
+                } else if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                    throw new \Exception("Veuillez insérer un format de mail valide.");
+                    return;
+                }
+                    
             }
             else if ($key == 'password')
             {

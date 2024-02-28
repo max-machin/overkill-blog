@@ -23,7 +23,7 @@ class AuthenticationFacade
     {
         if ($this->validate->isValid(['mail' => $email, 'password' => $password, 'confirmPass' => $confirmPassword, 'firstname' => $firstname, 'lastname' => $lastname]))
         {
-            $this->auth->register(['firstname' => $firstname, 'lastname' => $lastname, 'password' => $password, 'mail' => $email]);
+            $this->auth->register($email, $password, $confirmPassword, $firstname, $lastname);
             $this->auth->login($email, $password);
             $this->mail->to($email)->subject('Welcome')->send();
         }
