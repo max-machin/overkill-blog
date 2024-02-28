@@ -4,6 +4,11 @@ namespace App\Classes\Render;
 
 use App\Interfaces\Render\RenderInterface;
 
+/**
+ * Class Render : Classe responsable du rendu des vues.
+ * Elle sera ensuite instancier dans un proxy afin de pouvoir précharger des images pour les articles par exemple
+ * Exemple illustrant le design pattern : proxy
+ */
 class Render implements RenderInterface {
     protected $view;
     protected $params;
@@ -17,6 +22,11 @@ class Render implements RenderInterface {
         $this->display($this->view, $this->params);
     }
 
+    /**
+     * function display : Formate et rend une vue
+     *
+     * @return void
+     */
     public function display(){
         
         ob_start();

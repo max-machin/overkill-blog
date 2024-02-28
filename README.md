@@ -38,8 +38,9 @@ AuthenticationFacadeController->signUpNewUser()
 
 
 
-Finir commentaire proxy 
+Valider façade et proxy.
 
+Handler error -> chaine de responsabilité
 Voir pour le decorator, composite, chaine de responsabilité, iterator ? 
 
 Voir pour factory avec le Crud et pour façade avec les manager ou les controllers ? 
