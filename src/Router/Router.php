@@ -7,7 +7,7 @@ class Router
     private $url;
     private $routes = [];
     private static $namedRoutes = [];
-    private $basePath = '/solid-blog';
+    private $basePath = '/overkill-blog';
 
     public function __construct()
     {

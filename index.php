@@ -13,7 +13,7 @@ session_start();
 
 $router = new Router($_SERVER['REQUEST_URI']);
 
-$router->setBasePath('/solid-blog/');
+$router->setBasePath('/overkill-blog/');
 
 $router->get('/', function () {
     $controller = new Controller();
@@ -26,9 +26,6 @@ new AuthenticationRoutes($router);
 new PostRoutes($router);
 // Admin
 new AdminRoutes($router);
-
-
-
 
 // User
 $router->get('/profile', function () {
