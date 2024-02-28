@@ -18,12 +18,15 @@ class Render implements RenderInterface {
     }
 
     public function display(){
+        
         ob_start();
         extract($this->params);
         require_once 'src/views/' . $this->view . '.php';
-        $content = ob_get_clean();
+        $tampon = ob_get_contents();
+        file_put_contents('/Cache/index.html', $tampon);
+        ob_end_clean();
         require_once 'src/views/partials/header.php';
-        echo $content;
+        echo $tampon;
         require_once 'src/views/partials/footer.php';
     }
 }
