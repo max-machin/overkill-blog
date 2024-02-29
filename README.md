@@ -33,16 +33,28 @@ AuthenticationFacadeController->signUpNewUser()
 - Possible de retrouver les exemples en recherchant : 'facade'
 
 
+### 3. Chaine de responsabilité
+
+Le design pattern **chaine de responsabilité** va créer un fonctionnement commun entre différent service.
+Dans cet exemple, un processus de validation des données lors de l'inscription.
+
+Classe exemple : src/Authentication/Validate.php
+```
+Validate->isValid($postEntries)
+{
+    $this->sanitizeValidationHandler->setNextHandler($this->mailValidationHandler);
+    $this->mailValidationHandler->setNextHandler($this->passwordValidationHandler);
+
+    $this->sanitizeValidationHandler->handlerRequest($data);
+} 
+```
+- Possible de retrouver les exemples en recherchant : 'chaine de responsabilite'
 
 
 
 
+Valider façade, proxy, chaine de responsabilite.
 
-Valider façade et proxy.
+Iterator ou flyweight : posts ? 
 
-Handler error -> chaine de responsabilité
-Voir pour le decorator, composite, chaine de responsabilité, iterator ? 
-
-Voir pour factory avec le Crud et pour façade avec les manager ou les controllers ? 
-
-Voir pour la présentation du proxy par rapport à de potentielles images dans les articles par la suite ou pour faire de la mise en cache éventuelle.
+Voir pour le decorator, composite, iterator ? 

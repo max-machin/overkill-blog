@@ -4,52 +4,38 @@ namespace App\Authentication;
 
 use App\Interfaces\Authentication\ValidateInterface;
 
+// handler de chaine de reponsabilite
+use App\LinkResponsability\MailValidationHandler;
+use App\LinkResponsability\PasswordValidationHandler;
+use App\LinkResponsability\SanitizeValidationHandler;
+
 /**
  * Class Validate : Responsable de la validation des données entrer en formulaire.
  * Exemple illustrant le design pattern : facade
+ * Exemple illustrant le design pattern : chaine de reponsabilite
  */
 class Validate implements ValidateInterface
 {
+    // Handlers 
+    private $sanitizeValidationHandler;
+    private $mailValidationHandler;
+    private $passwordValidationHandler;
+
+    public function __construct()
+    {
+        $this->sanitizeValidationHandler = new SanitizeValidationHandler();
+        $this->mailValidationHandler= new MailValidationHandler();
+        $this->passwordValidationHandler = new PasswordValidationHandler();
+    }
+
     public function isValid(array $data)
     {
-        
-        foreach($data as $key => $value)
-        {
 
-            if ($key == 'mail')
-            {
-                $pattern = "/^\S+@\S+\.\S+$/";
-                if (!preg_match($pattern, $value))
-                {
-                    throw new \Exception("Veuillez insérer un format de mail valide."); 
-                    return false;
-                } else if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                    throw new \Exception("Veuillez insérer un format de mail valide.");
-                    return;
-                }
-                    
-            }
-            else if ($key == 'password')
-            {
+        // Construction de la chaine de responsabilite
+        $this->sanitizeValidationHandler->setNextHandler($this->mailValidationHandler);
+        $this->mailValidationHandler->setNextHandler($this->passwordValidationHandler);
 
-                $pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$^";
-                if (!preg_match($pattern, $value))
-                {
-                    throw new \Exception("Le mot de passe doit contenir au minimum 8 caractères, 1 majuscule et 1 chiffre."); 
-                    return false;
-                }
-                
-            } else if (empty($value)){
-                throw new \Exception("Veuillez renseigner tous les champs."); 
-                return false;
-            }
-        }
-
-        if ($data['password'] != $data['confirmPass'])
-        {
-            throw new \Exception("Les mots de passes doivent correspondrent."); 
-            return false;
-        }
+        $this->sanitizeValidationHandler->handlerRequest($data);
 
         return true;
     }
