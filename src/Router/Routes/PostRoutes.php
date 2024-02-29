@@ -5,7 +5,6 @@ namespace App\Router\Routes;
 use App\Class\Controller;
 use App\Controller\Post\PostController;
 use App\Router\Router;
-use App\Proxy\Render\RenderProxy;
 
 class PostRoutes 
 {

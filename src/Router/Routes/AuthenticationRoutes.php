@@ -2,6 +2,7 @@
 
 namespace App\Router\Routes;
 
+// Au
 use App\Controller\Authentication\AuthenticationController;
 use App\Controller\Authentication\AuthenticationFacadeController;
 use App\Proxy\Render\RenderProxy;
@@ -37,8 +38,8 @@ class AuthenticationRoutes
 
         // Login
         $router->get('/login', function () {
-            $controller = new AuthenticationController();
-            $controller->render('login');
+            $controller = new RenderProxy('login');
+            $controller->display();
         }, "login");
         
         $router->post('/login', function () {
