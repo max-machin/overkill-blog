@@ -8,8 +8,13 @@ use App\Class\Crud;
 use App\Class\Post;
 use App\Class\User;
 use App\Interfaces\Post\PostInformationsInterface;
+use App\Iterator\Comment\CommentCollection;
+use App\Iterator\Post\PostCollection;
 use DateTime;
 
+/**
+ * Exemple illustrant le design pattern : Iterator
+ */
 class PostInformations extends Post implements PostInformationsInterface 
 {
 
@@ -48,19 +53,66 @@ class PostInformations extends Post implements PostInformationsInterface
     public function getPaginatePosts($page)
     {
         $arrayPosts = $this->crud->GetAllPaginate($page);
-        $results = [];
-        foreach ($arrayPosts as $arrayPost) {
-            $post = new Post();
-            $post->setId($arrayPost['id']);
-            $post->setTitle($arrayPost['title']);
-            $post->setContent($arrayPost['content']);
-            $post->setCreatedAt(new DateTime($arrayPost['created_at']));
-            $post->setUpdatedAt($arrayPost['updated_at'] ? new DateTime($arrayPost['updated_at']) : null);
-            $post->setUser((new User())->findOneById($arrayPost['user_id']));
-            $post->setCategory((new Category())->findOneById($arrayPost['category_id']));
-            $post->setComments((new Comment())->findByPost($arrayPost['id']));
-            $results[] = $post;
+
+        // New collection de Posts
+        $newPostCollection = new PostCollection();
+
+        // Boucle sur les posts pour former la collection
+        foreach($arrayPosts as $result)
+        {
+            $newPostCollection->addItem($result);
         }
+
+        $iterator = $newPostCollection->getIterator();
+
+        $results = [];
+
+        // Boucle sur les entités valide selon l'iterator
+        while($iterator->valid())
+        {
+            // Set des values de l'objet
+            $post = new Post();
+            $post->setId($iterator->current()['id']);
+            $post->setTitle($iterator->current()['title']);
+            $post->setContent($iterator->current()['content']);
+            $post->setCreatedAt(new DateTime($iterator->current()['created_at']));
+            $post->setUpdatedAt($iterator->current()['updated_at'] ? new DateTime($iterator->current()['updated_at']) : null);
+            $post->setUser((new User())->findOneById($iterator->current()['user_id']));
+            $post->setCategory((new Category())->findOneById($iterator->current()['category_id']));
+
+            // Collection de commentaires
+            $commentsCollection = new CommentCollection();
+
+            // Boucle sur les commentaires du post
+            foreach((new Comment())->findByPost($iterator->current()['id']) as $comment){
+                $commentsCollection->addItem($comment);
+            }
+
+            $commentIterator = $commentsCollection->getIterator();
+            $comments = [];
+
+            // Validation des items de la collection
+            while($commentIterator->valid())
+            {
+                $comments[] = $commentIterator->current();
+                $commentIterator->next();
+            }
+            
+            // Set des comments du post
+            $post->setComments($comments);
+
+            // Remise à 0 de l'index de l'iterator
+            $commentIterator->rewind();
+
+            $results[] = $post;
+
+            // objet suivant
+            $iterator->next();
+        }
+
+        // Remise à 0 de l'index de l'iterator
+        $iterator->rewind();
+
         return $results;
     }
 }
