@@ -5,7 +5,7 @@ namespace App\Iterator;
 /**
  * Class IteratorManager : Va permettre d'itérer sur une collection d'objets
  * @implements \Iterator<int, string>
- * Exemple illustrant le design pattern : Iterator
+ * Exemple illustrant le design pattern : iterator
  */
 class IteratorManager implements \Iterator
 {

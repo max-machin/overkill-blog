@@ -13,7 +13,8 @@ use App\Iterator\Post\PostCollection;
 use DateTime;
 
 /**
- * Exemple illustrant le design pattern : Iterator
+ * Class PostInformations : Va permettre de retourner les informations des posts.
+ * Exemple illustrant le design pattern : iterator
  */
 class PostInformations extends Post implements PostInformationsInterface 
 {

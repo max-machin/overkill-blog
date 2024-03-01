@@ -50,11 +50,37 @@ Validate->isValid($postEntries)
 ```
 - Possible de retrouver les exemples en recherchant : 'chaine de responsabilite'
 
+### 4. Iterator
+
+Le design pattern **Iterator** va permettre de traverser une collection d'objet.
+
+Classe exemple : src/Iterator/IteratorManager.php
+                 src/Iterator/Post/PostCollection.php
+```
+PostInformations->getPaginatedPosts()
+{
+    // Collection de commentaires
+    $commentsCollection = new CommentCollection();
+
+    // Boucle sur les commentaires du post
+    foreach((new Comment())->findByPost($iterator->current()['id']) as $comment){
+        $commentsCollection->addItem($comment);
+    }
+
+    $commentIterator = $commentsCollection->getIterator();
+    $comments = [];
+
+    // Validation des items de la collection
+    while($commentIterator->valid())
+    {
+        $comments[] = $commentIterator->current();
+        $commentIterator->next();
+    }
+    
+    // Set des comments du post
+    $post->setComments($comments);
+} 
+```
+- Possible de retrouver les exemples en recherchant : 'iterator'
 
 
-
-Valider façade, proxy, chaine de responsabilite.
-
-Iterator ou flyweight : posts ? 
-
-Voir pour le decorator, composite, iterator ? 

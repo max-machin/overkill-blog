@@ -7,7 +7,7 @@ use Traversable;
 
 /**
  * PostCollection : Tableau de Posts qui pourra être parcouru à partir de l'iterator
- * Exemple illustrant le design pattern : Iterator
+ * Exemple illustrant le design pattern : iterator
  */
 class PostCollection implements \IteratorAggregate
 {
